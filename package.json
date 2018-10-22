@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node bin",
     "start:dev": "nodemon bin",
-    "slc": "slc"
+    "sequelize": "sequelize"
   },
   "repository": {
     "type": "git",
@@ -21,9 +21,13 @@
   "dependencies": {
     "express": "^4.16.4",
     "lodash": "^4.17.11",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.41.0"
   },
   "devDependencies": {
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "sequelize-cli": "^5.2.0"
   }
 }
