@@ -60,6 +60,23 @@ const GameController = {
       })
       .catch((error) => res.status(400).send(error));
   },
+
+  destroy(req, res) {
+    return Game
+      .findOne({where: {uuid: req.params.gameId}})
+      .then(game => {
+        if(!game) {
+          return res.status(404).send({
+            message: 'Game not found'
+          })
+        }
+        return game
+          .destroy()
+          .then(() => res.status(200).send(game))
+          .catch((error) => res.status(400).send(error));
+      })
+      .catch((error) => res.status(400).send(error));
+  }
 }
 
 
