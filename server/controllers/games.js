@@ -23,8 +23,8 @@ const GameController = {
 
   list(req, res) {
     return Game
-      .all()
-      .then(todos => res.status(200).send(todos))
+      .findAll()
+      .then(games => res.status(200).send(games))
       .catch(error => res.status(400).send(error));
   },
 
@@ -40,6 +40,25 @@ const GameController = {
         return res.status(200).send(game);
       })
       .catch(error => res.status(400).send(error));
+  },
+
+  update(req, res) {
+    return Game
+      .findOne({where :{ uuid: req.params.gameId}})
+      .then(game => {
+        if (!game) {
+          return res.status(404).send({
+            message: 'Game not found',
+          });
+        }
+        return game
+          .update({
+            name: req.body.name || game.name
+          })
+          .then(() => res.status(200).send(game))
+          .catch((error) => res.status(400).send(error));
+      })
+      .catch((error) => res.status(400).send(error));
   },
 }
 
