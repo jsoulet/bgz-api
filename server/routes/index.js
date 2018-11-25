@@ -11,5 +11,6 @@ module.exports = (app) => {
       })
   });
 
-  app.post('/api/games', gameController.create )
+  app.post('/api/games', gameController.create);
+  app.get('/api/games', gameController.list);
 }
