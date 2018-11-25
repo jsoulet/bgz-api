@@ -2,7 +2,7 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Games', {
-      id: {
+      uuid: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.UUID,
@@ -10,6 +10,20 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING
+      },
+      url: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      ketchupMiams: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
+      },
+      mayoMiams: {
+        type: Sequelize.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
