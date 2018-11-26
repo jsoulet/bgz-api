@@ -1,5 +1,6 @@
-const randomstring = require('randomstring');
+//const randomstring = require('randomstring');
 
+const {isNumber} = require('lodash');
 const Game = require('../models').Game;
 
 const GameController = {
@@ -51,10 +52,19 @@ const GameController = {
             message: 'Game not found',
           });
         }
+
+        game.name = req.body.name || game.name;
+
+        if(isNumber(req.body.ketchupMiams)) {
+          game.ketchupMiams = req.body.ketchupMiams
+        }
+
+        if(isNumber(req.body.mayoMiams)) {
+          game.mayoMiams = req.body.mayoMiams
+        }
+
         return game
-          .update({
-            name: req.body.name || game.name
-          })
+          .save()
           .then(() => res.status(200).send(game))
           .catch((error) => res.status(400).send(error));
       })
