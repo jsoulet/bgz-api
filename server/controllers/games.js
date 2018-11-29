@@ -1,6 +1,6 @@
-//const randomstring = require('randomstring');
+const randomstring = require('randomstring');
 
-const {isNumber} = require('lodash');
+const {isNumber, isEmpty} = require('lodash');
 const Game = require('../models').Game;
 
 const GameController = {
@@ -8,25 +8,37 @@ const GameController = {
     return Game
       .create({
         name: req.body.name,
-        url: '123',
-        // url: randomstring({
-        //   capitalization: 'lowercase',
-        //   charset: 'alphabetic',
-        //   length: 12,
-        //   readable: true,
-        // }),
+        url: randomstring.generate({
+          capitalization: 'lowercase',
+          charset: 'alphanumeric',
+          length: 5,
+          readable: true,
+        }),
         ketchupMiams: 0,
         mayoMiams: 0,
       })
-      .then(game => res.status(201).send(game))
-      .catch(error => res.status(400).send(error));
+      .then(game => res.json(game))
+      .catch(error => res.status(400).json(error));
   },
 
   list(req, res) {
+    if(req.query && req.query.code) {
+      return Game
+        .findOne({where: {url: req.query.code.replace(/[^\w.]+/g, '')}})
+        .then(game => {
+          if(isEmpty(game)) {
+            return res.status(404).json({
+              message: 'Game not found',
+            });
+          }
+          return res.json(game)
+        })
+        .catch(error => res.status(404).send(error));
+    }
     return Game
       .findAll()
-      .then(games => res.status(200).send(games))
-      .catch(error => res.status(400).send(error));
+      .then(games => res.json(games))
+      .catch(error => res.status(400).json(error));
   },
 
   retrieve(req, res) {
@@ -34,13 +46,13 @@ const GameController = {
       .findOne({where: {uuid: req.params.gameId}})
       .then(game => {
         if (!game) {
-          return res.status(404).send({
+          return res.json({
             message: 'Game not found',
           });
         }
-        return res.status(200).send(game);
+        return res.status(200).json(game);
       })
-      .catch(error => res.status(400).send(error));
+      .catch(error => res.status(400).json(error));
   },
 
   update(req, res) {
@@ -48,7 +60,7 @@ const GameController = {
       .findOne({where :{ uuid: req.params.gameId}})
       .then(game => {
         if (!game) {
-          return res.status(404).send({
+          return res.status(404).json({
             message: 'Game not found',
           });
         }
@@ -65,10 +77,10 @@ const GameController = {
 
         return game
           .save()
-          .then(() => res.status(200).send(game))
-          .catch((error) => res.status(400).send(error));
+          .then(() => res.json(game))
+          .catch((error) => res.status(400).json(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => res.status(400).json(error));
   },
 
   destroy(req, res) {
@@ -76,16 +88,16 @@ const GameController = {
       .findOne({where: {uuid: req.params.gameId}})
       .then(game => {
         if(!game) {
-          return res.status(404).send({
+          return res.status(404).json({
             message: 'Game not found'
           })
         }
         return game
           .destroy()
-          .then(() => res.status(200).send(game))
-          .catch((error) => res.status(400).send(error));
+          .then(() => res.json(game))
+          .catch((error) => res.status(400).json(error));
       })
-      .catch((error) => res.status(400).send(error));
+      .catch((error) => res.status(400).json(error));
   }
 }
 
