@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const server = require('http').Server(app);
-const io = require('socket.io')(server);
+const io = require('./server/socket')(server);
 
 app.use(cors());
 app.use(logger('dev'));
@@ -26,14 +26,5 @@ app.get('*', (req, res) => res
     }
   )
 );
-
-//@TODO: move in another file
-io.on('connection', function(socket){
-  console.log('socket connected');
-  socket.emit('askGameId');
-  socket.on('askGameId-Response', ({gameId}) => {
-    socket.join(gameId);
-  });
-});
 
 module.exports = server;
