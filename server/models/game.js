@@ -23,6 +23,14 @@ module.exports = (sequelize, Sequelize) => {
       defaultValue: 0,
       allowNull: false,
     },
+    isBuzzerEnabled: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+    buzzerValue: {
+      type: Sequelize.BOOLEAN,
+    }
   }, {});
 
   return Game;

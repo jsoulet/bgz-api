@@ -9,9 +9,14 @@ module.exports = (server) => {
     });
 
     socket.on('jingle', ({gameId, jingleType}) => {
-      console.log('jingle recieved', {gameId, jingleType})
+      console.log('MESSAGE jingle', {gameId, jingleType})
       io.to(gameId).emit('jingle', {jingleType});
     });
+
+    socket.on('buzz', ({team, gameId}) => {
+      console.log(`MESSAGE buzz`, {team, gameId})
+      io.to(gameId).emit('buzz', {team});
+    })
   });
 
 

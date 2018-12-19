@@ -45,6 +45,7 @@ const GameController = {
     return Game
       .findOne({where: {uuid: req.params.gameId}})
       .then(game => {
+        console.log(game);
         if (!game) {
           return res.json({
             message: 'Game not found',
