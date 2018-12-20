@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //@TODO: needs to be after db query
 app.put('/api/games/:gameId', (req, res, next) => {
   const gameId = req.params.gameId;
-  io.to(gameId).emit('score', req.body);
+  io.to(gameId).emit('updateGame', req.body);
   next()
 });
 
