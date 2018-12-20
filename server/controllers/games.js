@@ -1,6 +1,6 @@
 const randomstring = require('randomstring');
 
-const {isNumber, isEmpty} = require('lodash');
+const {isNumber, isEmpty, isUndefined} = require('lodash');
 const Game = require('../models').Game;
 
 const GameController = {
@@ -45,7 +45,6 @@ const GameController = {
     return Game
       .findOne({where: {uuid: req.params.gameId}})
       .then(game => {
-        console.log(game);
         if (!game) {
           return res.json({
             message: 'Game not found',
@@ -74,6 +73,14 @@ const GameController = {
 
         if(isNumber(req.body.mayoMiams)) {
           game.mayoMiams = req.body.mayoMiams
+        }
+
+        if(!isUndefined(req.body.isBuzzerEnabled)) {
+          game.isBuzzerEnabled = req.body.isBuzzerEnabled;
+        }
+
+        if(req.body.buzzerValue) {
+          game.buzzerValue = req.body.buzzerValue;
         }
 
         return game
