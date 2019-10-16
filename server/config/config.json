@@ -1,8 +1,8 @@
 {
   "development": {
-    "username": "johansoulet",
+    "username": "jsoulet",
     "password": null,
-    "database": "johansoulet",
+    "database": "burgerquiz",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

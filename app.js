@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.put('/api/games/:gameId', (req, res, next) => {
   const gameId = req.params.gameId;
   io.to(gameId).emit('updateGame', req.body);
+  console.log('MESSAGE updateGame', req.body)
   next()
 });
 
